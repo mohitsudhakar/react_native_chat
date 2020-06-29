@@ -1,2 +1,6 @@
-# react_native_chat
-React Native Chat App
+# chat
+P2P Messaging Mobile App
+
+Tech: React Native, Node.js, Socket.io, MySQL
+
+heroku config --app onenodeserve

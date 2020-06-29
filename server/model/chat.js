@@ -1,7 +1,13 @@
+
+const username = 'b2a642da8220e5'
+const password = '65d76285'
+const host = 'us-cdbr-east-02.cleardb.com';
+const database = 'heroku_c53f2d4f5a147b1'
+
 const { Sequelize, DataTypes, Model } = require('sequelize');
-const sequelize = new Sequelize('chat', 'root', 'root', {
+const sequelize = new Sequelize(database, username, password, {
     dialect: 'mysql',
-    host: 'localhost',
+    host: host,
 });
 const Op = Sequelize.Op
 class ChatMessage extends Model {}
@@ -28,26 +34,3 @@ ChatMessage.init({
 console.log(ChatMessage === sequelize.models.ChatMessage); // true
 
 module.exports = { ChatMessage, Op }
-
-//
-// const mysql = require('mysql');
-//
-// var con = mysql.createConnection({
-//     host: "localhost",
-//     user: "root",
-//     password: "root",
-//     database: "chat"
-// });
-//
-// con.connect(function(err) {
-//     if (err) throw err;
-//     console.log("Connected!");
-// });
-//
-// function runQuery(sql) {
-//     con.query(sql, function (err, result) {
-//         return result;
-//     })
-// }
-//
-// module.exports = {runQuery}

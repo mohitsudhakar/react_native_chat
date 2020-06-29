@@ -21,6 +21,10 @@ async function fetchChat(sender, receiver) {
     })
 }
 
+app.get('/', (req, res) => {
+    res.send("Welcome to mohit's chat backend");
+})
+
 app.get('/chats', async (req, res) => {
     const sender = req.query.sender
     const receiver = req.query.receiver
@@ -69,6 +73,8 @@ io.on('connection', socket => {
         console.log(data);
 
         // todo: save to database
+        data.sender = data.sender.toLowerCase()
+        data.receiver = data.receiver.toLowerCase()
         const chat = {
             sender: data.sender,
             receiver: data.receiver,
@@ -87,7 +93,7 @@ io.on('connection', socket => {
         if (socket.nick) {
             delete users[socket.nick];
         }
-        socket.nick = data.sender; //storing nick of each user in its own socket
+        socket.nick = data.sender.toLowerCase(); //storing nick of each user in its own socket
         // each user has its own socket
         users[socket.nick] = socket;
         console.log(socket.nick + " connected");
@@ -95,11 +101,11 @@ io.on('connection', socket => {
 
     //on disconnect
     socket.on('disconnect', function(data){
-        if(socket.nickname){
+        if(socket.nick){
             socket.leave(this);
-            console.log(socket.nickname +' disconnected');
-            io.emit('user left', {nick: socket.nickname});//send nick who left to client
-            delete users[socket.nickname];
+            console.log(socket.nick +' disconnected');
+            // io.emit('user left', {nick: socket.nick});//send nick who left to client
+            delete users[socket.nick];
         }
     });
 });

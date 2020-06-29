@@ -13,14 +13,14 @@ import io from 'socket.io-client';
 export default class app extends Component {
     constructor(props) {
         super(props);
-        this.ip = 'http://172.25.18.240:3000'
+        this.ip = 'https://onenodeserve.herokuapp.com'
         this.state = {
             loading: false,
             message: "",
             chatList: [],
             sender: "",
             receiver: "",
-            match_id: Math.random()*1000000
+            match_id: (Math.random()*1000000).toString()
         }
         this.apiEndpoint = '/chats'
     }
@@ -29,7 +29,7 @@ export default class app extends Component {
         this.socket = io(this.ip);
         // this.socket.emit('create', {username: this.state.sender});
         this.socket.on('chat message', data => {
-            if (data.sender === this.state.receiver) {
+            if (data.sender.toLowerCase() === this.state.receiver.toLowerCase()) {
                 const displayMsg = data.sender + ': ' + data.message
                 this.setState({ chatList: [...this.state.chatList, displayMsg] })
             }
